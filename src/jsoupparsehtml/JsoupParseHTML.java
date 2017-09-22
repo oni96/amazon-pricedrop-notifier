@@ -25,17 +25,26 @@ public class JsoupParseHTML {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
         Scanner s = new Scanner(System.in);
-        Document doc = Jsoup.connect(s.nextLine()).get();
+        Document doc = null;
+        boolean connSuccess = false;
+        try {            
+            doc = Jsoup.connect(s.nextLine()).timeout(4000).get();
+            connSuccess = true;
+        } catch (Exception e) {
+            System.out.println("Connection failed!");
+        }
+
         Element priceElement=null;
         
         FileInputStream priceIdTagFile = new FileInputStream("tag.txt");
         BufferedReader br = new BufferedReader(new InputStreamReader(priceIdTagFile));
-        ArrayList<String> priceIds = new ArrayList<String>();
+        ArrayList<String> priceIds = new ArrayList();
         
-        String line = "";
+        String line;
         
         while((line=br.readLine())!=null){
             priceIds.add(line);
@@ -44,7 +53,7 @@ public class JsoupParseHTML {
         //priceElement = doc.getElementById("priceblock_dealprice");
         
         int j = 0;
-        while(priceElement==null){
+        while(priceElement==null && connSuccess==true){
             priceElement = doc.getElementById(priceIds.get(j));
             j++;
             
@@ -74,6 +83,7 @@ public class JsoupParseHTML {
 //            }
 
         }else{
+            if(connSuccess==true)
             System.out.println("ID not found");
         }
     }
