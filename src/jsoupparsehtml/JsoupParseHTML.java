@@ -31,11 +31,11 @@ public class JsoupParseHTML {
         priceIds.add("priceblock_dealprice");
         priceIds.add("priceblock_ourprice");
         
-        priceElement = doc.getElementById("priceblock_dealprice");
+        //priceElement = doc.getElementById("priceblock_dealprice");
         
         int j = 0;
         while(priceElement==null){
-            priceElement = Jsoup.connect(priceIds.get(j)).get();
+            priceElement = doc.getElementById(priceIds.get(j));
             j++;
             
             if(j==priceIds.size()){
@@ -50,9 +50,10 @@ public class JsoupParseHTML {
 
             String val = priceElement.text().trim();
             for (int i = 0; i < val.length(); i++) {
-                if (val.charAt(i) < 127 && val.charAt(i) > 32) {
+                if (Character.isDigit(val.charAt(i))||val.charAt(i)=='.') {
                     fin = fin + val.charAt(i);
                 }
+                
             }
 
             System.out.println("Price as of now is:"+fin);
