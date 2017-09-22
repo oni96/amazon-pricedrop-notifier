@@ -5,8 +5,11 @@
  */
 package jsoupparsehtml;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 import org.jsoup.Connection;
@@ -27,9 +30,16 @@ public class JsoupParseHTML {
         Scanner s = new Scanner(System.in);
         Document doc = Jsoup.connect(s.nextLine()).get();
         Element priceElement=null;
+        
+        FileInputStream priceIdTagFile = new FileInputStream("tag.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(priceIdTagFile));
         ArrayList<String> priceIds = new ArrayList<String>();
-        priceIds.add("priceblock_dealprice");
-        priceIds.add("priceblock_ourprice");
+        
+        String line = "";
+        
+        while((line=br.readLine())!=null){
+            priceIds.add(line);
+        }
         
         //priceElement = doc.getElementById("priceblock_dealprice");
         
