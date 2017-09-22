@@ -6,13 +6,11 @@
 package jsoupparsehtml;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -34,7 +32,7 @@ public class JsoupParseHTML {
         try {            
             doc = Jsoup.connect(s.nextLine()).timeout(4000).get();
             connSuccess = true;
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Connection failed!");
         }
 
