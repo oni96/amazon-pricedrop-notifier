@@ -6,8 +6,12 @@
 package jsoupparsehtml;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -18,7 +22,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 /**
- *
+ *Test URL1:https://www.amazon.in/dp/B06ZY69D56/ref=psdc_1389396031_t1_B01ICVLK4S
+ * Test URL2:https://www.amazon.in/Sanyo-108-2-inches-XT-43S7100F-Black/dp/B01ICVLK4S/ref=gbph_tit_m-5_1e10_64066709?smid=AT95IG9ONZD7S&pf_rd_p=1d14a301-79e7-40f6-941f-97b38a401e10&pf_rd_s=merchandised-search-5&pf_rd_t=101&pf_rd_i=9899981031&pf_rd_m=A1VBAL9TL5WCBF&pf_rd_r=7WTYNVTNC5PDBZHFGANZ
  * @author oni
  */
 public class JsoupParseHTML {
@@ -50,7 +55,6 @@ public class JsoupParseHTML {
             priceIds.add(line);
         }
         
-        //priceElement = doc.getElementById("priceblock_dealprice");
         
         int j = 0;
         while(priceElement==null && connSuccess==true){
@@ -65,7 +69,6 @@ public class JsoupParseHTML {
         
         if (priceElement != null) {
             String fin = "";
-//            System.out.println(priceElement.toString());
 
             String val = priceElement.text().trim();
             for (int i = 0; i < val.length(); i++) {
@@ -74,13 +77,18 @@ public class JsoupParseHTML {
                 }
                 
             }
-
+            
+            File priceFile = new File("pricename.txt");
+            BufferedReader br1 =new BufferedReader(new FileReader(priceFile));
+            if(br1.readLine()!=fin){
+                BufferedWriter bw = new BufferedWriter(new FileWriter(priceFile));
+                bw.write(fin);
+                bw.close();
+            }
+            
+          
+            
             System.out.println("Price as of now is:"+fin);
-//
-//            for (int i = 0; i < fin.length(); i++) {
-//                System.out.print((int) fin.charAt(i) + " ");
-//
-//            }
 
         }else{
             if(connSuccess==true)
